@@ -3,382 +3,1300 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF Hash Generator</title>
+    <title>The STORY BANK - Digital Script Registry for Your Creative Ideas</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Razorpay Checkout -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* #################################################################### */
+        /* ############# MERGED: IMMERSIVE & PROFESSIONAL DESIGN ############## */
+        /* #################################################################### */
+
+        :root {
+            --light-bg: #FFFFFF;
+            --primary-blue-dark: #0A58CC;
+            --primary-blue: #0D69FF;
+            --primary-blue-light: #F0F5FF;
+            --dark-text: #111827;
+            --light-text: #FFFFFF;
+            --medium-text: #4B5563;
+            --medium-text-light: #E0E7FF;
+            --border-color: #E5E7EB;
+            --border-color-dark: #2578ff;
         }
 
+        /* --- Base & Typography --- */
+        html { scroll-behavior: smooth; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden; /* <-- FIX: Prevents horizontal scroll */
+        }
+
+        /* --- Custom Text Color Classes (Fix) --- */
+        .text-primary-blue { color: var(--primary-blue); }
+        .text-primary-blue-dark { color: var(--primary-blue-dark); }
+        .text-dark-text { color: var(--dark-text); }
+        .text-medium-text { color: var(--medium-text); }
+        .hover\:text-dark-text:hover { color: var(--dark-text); }
+
+        /* --- Header --- */
+        .glass-header {
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* --- Section Styling --- */
+        .section-light {
+            background-color: var(--light-bg);
+        }
+        .section-light.wavy-bg {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23dbeafe' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2-H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .section-blue {
+            background-color: var(--primary-blue-dark);
+            background-image: radial-gradient(circle at 1% 1%, var(--primary-blue), transparent 25%),
+                              radial-gradient(circle at 99% 99%, #00358a, transparent 25%);
+            color: var(--light-text);
+        }
+        .section-blue .section-title { color: var(--light-text); }
+        .section-blue .section-subtitle { color: var(--medium-text-light); }
+
+        /* --- Hero Section Animated Icons --- */
+        .hero-icon {
+            position: absolute;
+            display: block;
+            color: var(--primary-blue);
+            animation: gentleFloat ease-in-out infinite;
+            opacity: 0; 
+        }
+        .hero-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+        @keyframes gentleFloat {
+            0%, 100% {
+                transform: scale(1) translateY(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.05) translateY(-5px);
+                opacity: 0.7;
+            }
+        }
+        
+        /* --- Modal Graphic Animation --- */
+        #welcome-graphic {
+            animation: float 6s ease-in-out infinite;
+        }
+        #welcome-graphic .seal {
+            transform-origin: center;
+            animation: stamp 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+        @keyframes stamp {
+            0%, 80%, 100% { transform: scale(1); opacity: 1; }
+            90% { transform: scale(1.2); opacity: 1; }
+        }
+
+
+        /* --- Custom Buttons --- */
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 14px 32px; border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem; transition: all 0.3s ease; cursor: pointer;
+            border: 1px solid transparent;
+        }
+        
+        .btn-primary {
+            color: white;
+            background-color: var(--primary-blue);
+            box-shadow: 0 4px 15px -2px rgba(13, 105, 255, 0.3), 0 2px 8px -2px rgba(13, 105, 255, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 20px -5px rgba(13, 105, 255, 0.4), 0 4px 8px -4px rgba(13, 105, 255, 0.3);
+        }
+        
+        .btn-secondary {
+            color: var(--primary-blue); background-color: transparent;
+            border-color: var(--primary-blue);
+        }
+        
+        .btn-secondary:hover {
+             background-color: rgba(13, 105, 255, 0.05);
+             transform: translateY(-2px);
+        }
+        
+        /* --- Interactive Mockups & Cards --- */
+        .interactive-mockup {
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            background-color: var(--light-bg);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            transform: perspective(2000px) rotateX(7deg) rotateZ(-2deg) scale(0.95);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+        }
+        .interactive-mockup.is-visible {
+            transform: perspective(2000px) rotateX(7deg) rotateZ(-2deg) scale(1);
+        }
+        .interactive-mockup:hover {
+            transform: perspective(2000px) rotateX(0deg) rotateZ(0deg) scale(1.05);
+            box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.2);
+        }
+
+        .dilemma-card {
+            background-color: var(--light-bg);
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-color);
+            padding: 0; 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transform-style: preserve-3d;
+            overflow: hidden;
+        }
+        .dilemma-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+            border-color: var(--primary-blue);
+        }
+        
+        /* --- Scroll Animations --- */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .scroll-reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* --- FAQ Accordion --- */
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out;
+            padding: 0 1rem;
+        }
+        .faq-answer p {
+             padding-bottom: 1rem;
+        }
+
+        /* --- Zoom-in animation for bullet points --- */
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        .zoom-in-item {
+            opacity: 0; /* Start hidden */
+            animation-fill-mode: forwards;
+        }
+        .zoom-in-item.is-visible {
+            animation-name: zoomIn;
+            animation-duration: 0.5s;
+            animation-timing-function: ease-out;
+        }
+
+        /* --- Interactive Vault Styles --- */
+        .vault-container {
+            position: relative;
+        }
+        
+        /* --- [NEW] Features Section --- */
+        .feature-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+        }
+        .feature-card.is-visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        .feature-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 15px 30px -5px rgba(0,0,0,0.1);
+            border-color: var(--primary-blue);
+        }
+        .feature-icon {
+            margin: 0 auto 1.5rem;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background-color: var(--primary-blue-light);
+            color: var(--primary-blue);
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            transition: transform 0.4s ease;
+            opacity: 0;
         }
-
-        .container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            padding: 40px;
-            max-width: 600px;
-            width: 100%;
-            text-align: center;
+        .feature-card.is-visible .feature-icon {
+            animation: icon-pop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
+        .feature-card.scroll-reveal[style*="delay: 100ms"].is-visible .feature-icon { animation-delay: 0.3s; }
+        .feature-card.scroll-reveal[style*="delay: 200ms"].is-visible .feature-icon { animation-delay: 0.4s; }
+        .feature-card.scroll-reveal[style*="delay: 300ms"].is-visible .feature-icon { animation-delay: 0.5s; }
+        .feature-card.scroll-reveal[style*="delay: 400ms"].is-visible .feature-icon { animation-delay: 0.6s; }
+        .feature-card.scroll-reveal[style*="delay: 500ms"].is-visible .feature-icon { animation-delay: 0.7s; }
 
-        h1 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 2.5em;
-            font-weight: 700;
+        @keyframes icon-pop {
+            0% { transform: scale(0.5); opacity: 0; }
+            60% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
         }
-
-        .subtitle {
-            color: #666;
-            margin-bottom: 40px;
-            font-size: 1.1em;
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1) rotate(-5deg);
         }
-
-        .upload-area {
-            border: 3px dashed #ddd;
-            border-radius: 15px;
-            padding: 60px 20px;
-            margin-bottom: 30px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .upload-area:hover {
-            border-color: #667eea;
-            background: rgba(102, 126, 234, 0.05);
-            transform: translateY(-2px);
-        }
-
-        .upload-area.dragover {
-            border-color: #667eea;
-            background: rgba(102, 126, 234, 0.1);
-            transform: scale(1.02);
-        }
-
-        .upload-icon {
-            font-size: 4em;
-            color: #ccc;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
-        }
-
-        .upload-area:hover .upload-icon {
-            color: #667eea;
-            transform: scale(1.1);
-        }
-
-        .upload-text {
-            font-size: 1.2em;
-            color: #666;
-            margin-bottom: 10px;
-        }
-
-        .upload-subtext {
-            color: #999;
-            font-size: 0.9em;
-        }
-
-        #fileInput {
-            display: none;
-        }
-
-        .file-info {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            text-align: left;
-            display: none;
-        }
-
-        .file-name {
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .file-size {
-            color: #666;
-            font-size: 0.9em;
-        }
-
-        .processing {
-            display: none;
-            margin: 30px 0;
-        }
-
-        .spinner {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
+        
+        /* --- [REDESIGNED] Process Animation Section --- */
+        .process-station {
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--light-bg);
+            border: 2px solid var(--border-color);
+            transition: all 0.5s ease-in-out;
+            z-index: 10;
+            position: relative; /* For pseudo-elements */
+        }
+        .process-station.active {
+            border-color: var(--primary-blue);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(13, 105, 255, 0.3);
+        }
+        .process-station.active svg {
+            color: var(--primary-blue);
+        }
+        .process-station.completed {
+            border-color: var(--dark-text);
+        }
+        .process-station.completed svg {
+            color: var(--dark-text);
+        }
+        #process-icon-5.completed {
+            border-color: #16a34a; /* green-600 */
+            background-color: #f0fdf4; /* green-50 */
+        }
+        #process-icon-5.completed svg {
+            color: #16a34a; /* green-600 */
+        }
+        .process-step {
+            padding: 1.5rem;
+            border: 1px solid transparent;
+            border-radius: 0.75rem;
+            transition: all 0.5s ease-in-out;
+            background-color: rgba(255, 255, 255, 0.5);
+            opacity: 0.5;
+        }
+        .process-step.active {
+            transform: translateY(-10px);
+            border-color: var(--primary-blue);
+            background-color: var(--primary-blue);
+            box-shadow: 0 10px 25px -5px rgba(13, 105, 255, 0.3);
+            opacity: 1;
+        }
+        .process-step.active h3, .process-step.active p {
+            color: var(--light-text);
+        }
+        .process-step.completed {
+            opacity: 1;
+        }
+        .process-step.completed:not(.active) h3, .process-step.completed:not(.active) p {
+            color: var(--dark-text);
+        }
+        .flying-icon {
+            z-index: 5;
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%); /* This centers the icon on its left coordinate */
+            opacity: 0;
+            transition: left 1s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.3s ease;
+        }
+        /* --- Icon Specific Animations --- */
+        #process-icon-1.active .upload-arrow { animation: upload-bounce 1.5s ease-in-out infinite; }
+        #process-icon-3.active .clock-hand { animation: spin-clock 1.5s linear infinite; }
+        #process-icon-4.active .lock-shackle { animation: lock-click 1.5s ease-in-out infinite; }
+
+        @keyframes upload-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+        @keyframes spin-clock {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        #process-icon-3 .clock-hand { transform-origin: center; }
+        @keyframes lock-click {
+            0%, 80%, 100% { transform: translateY(0) scaleY(1); }
+            90% { transform: translateY(2px) scaleY(0.9); }
+        }
+        #process-icon-4 .lock-shackle { transform-origin: bottom; }
+
+        /* --- Animation states for the middle icon (Verification) --- */
+        .flipper {
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+        #process-animation-container.processing .flipper {
+            animation: flip 1.5s ease-in-out infinite;
+        }
+        @keyframes flip {
+            from { transform: rotateY(0deg); }
+            to { transform: rotateY(360deg); }
+        }
+        .flipper .front, .flipper .back {
+            position: absolute;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+        .flipper .back {
+            transform: rotateY(180deg);
+        }
+        #process-animation-container.verified .flipper {
+            transform: rotateY(180deg);
+            animation: none;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .result {
-            display: none;
-            margin-top: 30px;
-        }
-
-        .result-title {
-            font-size: 1.5em;
-            color: #333;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        .hash-container {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            border-left: 4px solid #28a745;
-        }
-
-        .hash-value {
-            font-family: 'Courier New', monospace;
-            word-break: break-all;
-            font-size: 0.9em;
-            color: #333;
-            line-height: 1.6;
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid #e9ecef;
-        }
-
-        .copy-btn {
-            background: #667eea;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            margin-top: 15px;
-            cursor: pointer;
-            font-size: 0.9em;
-            transition: all 0.3s ease;
-        }
-
-        .copy-btn:hover {
-            background: #5a6fd8;
-            transform: translateY(-2px);
-        }
-
-        .error {
-            background: #f8d7da;
-            color: #721c24;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 20px;
-            display: none;
-        }
-
-        .reset-btn {
-            background: #6c757d;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            margin-top: 20px;
-            cursor: pointer;
-            font-size: 1em;
-            transition: all 0.3s ease;
-        }
-
-        .reset-btn:hover {
-            background: #5a6268;
-            transform: translateY(-2px);
-        }
     </style>
 </head>
-<body>
-    <div class="container">
-        <h1>🔐 PDF Hash Generator</h1>
-        <p class="subtitle">Generate SHA2-512 fingerprints for your PDF files</p>
-        
-        <div class="upload-area" onclick="document.getElementById('fileInput').click()">
-            <div class="upload-icon">📄</div>
-            <div class="upload-text">Click to upload or drag & drop your PDF</div>
-            <div class="upload-subtext">Maximum file size: 100MB</div>
-        </div>
-        
-        <input type="file" id="fileInput" accept=".pdf" />
-        
-        <div class="file-info" id="fileInfo">
-            <div class="file-name" id="fileName"></div>
-            <div class="file-size" id="fileSize"></div>
-        </div>
-        
-        <div class="processing" id="processing">
-            <div class="spinner"></div>
-            <div>Generating hash...</div>
-        </div>
-        
-        <div class="result" id="result">
-            <div class="result-title">Your File's Unique Fingerprint</div>
-            <div class="hash-container">
-                <div class="hash-value" id="hashValue"></div>
-                <button class="copy-btn" onclick="copyToClipboard()">📋 Copy Hash</button>
+<body class="overflow-x-hidden">
+
+    <!-- Header -->
+    <header class="glass-header sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-dark-text">STORY<span class="text-primary-blue">BANK</span></a>
+            <div class="hidden md:flex items-center space-x-8 text-sm font-semibold text-medium-text">
+                <a href="#dilemma" class="hover:text-dark-text transition">The Dilemma</a>
+                <a href="#solution" class="hover:text-dark-text transition">Our Solution</a>
+                <a href="#features" class="hover:text-dark-text transition">Features</a>
+                <a href="#process" class="hover:text-dark-text transition">Process</a>
+                <a href="#pricing" class="hover:text-dark-text transition">Pricing</a>
             </div>
-            <button class="reset-btn" onclick="resetApp()">Upload Another File</button>
-        </div>
+            <a href="#pricing" class="hidden md:inline-block btn btn-primary">Get Started</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero-section" class="relative py-20 md:py-28 px-6 section-light wavy-bg">
+            <div id="hero-icons-container" class="absolute top-0 left-0 w-full h-full overflow-hidden z-0"></div>
+            
+            <div class="container mx-auto grid md:grid-cols-2 gap-12 items-center relative z-10">
+                <div class="text-center md:text-left">
+                    <div class="mb-4">
+                        <svg class="w-12 h-12 text-primary-blue mx-auto md:mx-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-dark-text leading-tight scroll-reveal">
+                        Digital Script Registry for Your Creative Work
+                    </h1>
+                    <p class="text-lg md:text-xl text-medium-text mt-6 max-w-xl mx-auto md:mx-0 scroll-reveal" style="transition-delay: 150ms;">
+                        Secure your scripts, stories, and lyrics with a permanent, time-stamped digital certificate. Share your ideas with confidence, knowing your authorship is protected.
+                    </p>
+                    <div class="mt-10 scroll-reveal" style="transition-delay: 300ms;">
+                        <button type="button" class="popup-trigger btn btn-primary text-lg">Secure Your Idea</button>
+                    </div>
+                </div>
+                <div class="scroll-reveal" style="transition-delay: 400ms;">
+                    <!-- Certificate Mockup -->
+                    <div class="interactive-mockup p-6">
+                        <div class="border border-gray-200 rounded-lg p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <div class="font-bold text-xl">STORY<span class="text-primary-blue">BANK</span></div>
+                                <div class="text-xs font-mono text-gray-400">ID: 8A3F-4B9C-1D7E</div>
+                            </div>
+                            <div class="bg-gray-100 text-center py-3 rounded-md mb-4">
+                                <h2 class="font-bold text-lg text-dark-text">Certificate of Registration</h2>
+                            </div>
+                            <div class="space-y-3 text-sm">
+                                <div class="flex justify-between"><span class="text-gray-500">Work Title:</span><span class="font-semibold">The Last Echo</span></div>
+                                <div class="flex justify-between"><span class="text-gray-500">Author:</span><span class="font-semibold">Ananya Sharma</span></div>
+                                <div class="flex justify-between"><span class="text-gray-500">Date Registered:</span><span class="font-semibold">2025-08-22</span></div>
+                                <div class="flex justify-between"><span class="text-gray-500">Timestamp:</span><span class="font-semibold">12:38:00 UTC</span></div>
+                            </div>
+                            <div class="mt-6 pt-4 border-t border-gray-200 flex items-center gap-3">
+                                <svg class="w-8 h-8 text-green-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                <div>
+                                    <h3 class="font-semibold">Verified</h3>
+                                    <p class="text-xs text-gray-500">This document is permanently recorded and verifiable.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Dilemma Section -->
+        <section id="dilemma" class="py-20 lg:py-24 px-6 section-blue">
+             <div class="container mx-auto">
+                <div class="text-center max-w-3xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold section-title scroll-reveal">The Creator's Dilemma: To Share is to Risk</h2>
+                    <p class="text-lg section-subtitle mt-4 scroll-reveal">To bring your idea to life, you have to share it. But sharing your work before it's protected is a huge risk. How do you collaborate and get feedback without losing ownership of your original concept?</p>
+                </div>
+                
+                <div id="dilemma-sequence" class="relative mt-24">
+                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
+                        <!-- Card 1: You have a Spark -->
+                        <div class="flex flex-col items-center">
+                            <div class="dilemma-card w-full scroll-reveal" style="transition-delay: 0s;">
+                                <div class="bg-blue-100 rounded-t-lg p-4 h-40 flex flex-col justify-between">
+                                    <div>
+                                        <p class="text-xs text-blue-900 opacity-60">Untitled_Script.doc</p>
+                                        <p class="text-sm mt-2 text-blue-900">The year is 2088. A lone detective walks through the neon-drenched streets...</p>
+                                        <span class="inline-block w-0.5 h-4 bg-primary-blue animate-pulse"></span>
+                                    </div>
+                                    <div class="w-full h-1.5 bg-blue-200 rounded-full"><div class="w-1/4 h-1.5 bg-primary-blue rounded-full"></div></div>
+                                </div>
+                                <div class="p-4 bg-white rounded-b-lg">
+                                    <h3 class="font-bold text-lg text-dark-text">You have a Spark</h3>
+                                    <p class="text-medium-text mt-1 text-sm">An idea, a script, a story. It's original, it's brilliant, and it's yours.</p>
+                                </div>
+                            </div>
+                            <div class="scroll-reveal mt-6 w-12 h-12 rounded-full bg-white flex items-center justify-center text-primary-blue-dark font-bold text-2xl" style="transition-delay: 100ms;">1</div>
+                        </div>
+                        <!-- Card 2: The Pitch -->
+                        <div class="flex flex-col items-center">
+                            <div class="dilemma-card w-full scroll-reveal" style="transition-delay: 200ms;">
+                                 <div class="bg-blue-100 rounded-t-lg p-4 h-40 flex flex-col">
+                                    <div class="flex items-center gap-2 text-xs">
+                                        <span class="font-semibold text-blue-900 opacity-60">To:</span><span class="bg-blue-200 text-blue-900 px-2 py-0.5 rounded-full">director@bigstudios.com</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs mt-1">
+                                        <span class="font-semibold text-blue-900 opacity-60">Subject:</span><span class="text-blue-900">Script Submission: "Neon Detective"</span>
+                                    </div>
+                                    <div class="mt-auto flex items-center gap-2 p-2 border border-blue-200 rounded-md bg-white shadow-sm">
+                                        <svg class="w-5 h-5 text-primary-blue flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                        <span class="text-xs font-medium text-gray-800">Neon_Detective_v1.pdf</span>
+                                    </div>
+                                </div>
+                                <div class="p-4 bg-white rounded-b-lg">
+                                    <h3 class="font-bold text-lg text-dark-text">The Pitch</h3>
+                                    <p class="text-medium-text mt-1 text-sm">You need to pitch it to directors, producers, and collaborators.</p>
+                                </div>
+                            </div>
+                             <div class="scroll-reveal mt-6 w-12 h-12 rounded-full bg-white flex items-center justify-center text-primary-blue-dark font-bold text-2xl" style="transition-delay: 300ms;">2</div>
+                        </div>
+                        <!-- Card 3: The Vulnerability -->
+                        <div class="flex flex-col items-center">
+                            <div class="dilemma-card w-full scroll-reveal" style="transition-delay: 400ms;">
+                                <div class="bg-blue-100 rounded-t-lg p-4 h-40 flex items-center justify-center flex-col text-center">
+                                    <div class="relative">
+                                        <svg class="w-12 h-12 text-blue-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                        <div class="absolute -top-2 -right-2 bg-white rounded-full p-0.5 shadow">
+                                            <svg class="w-6 h-6 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m2.25 11.25h6.75a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H8.25a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" /></svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-4 bg-white rounded-b-lg">
+                                    <h3 class="font-bold text-lg text-dark-text">The Vulnerability!</h3>
+                                    <p class="text-medium-text mt-1 text-sm">Once it's shared, how do you prove it was your idea first?</p>
+                                </div>
+                            </div>
+                             <div class="scroll-reveal mt-6 w-12 h-12 rounded-full bg-white flex items-center justify-center text-primary-blue-dark font-bold text-2xl" style="transition-delay: 500ms;">3</div>
+                        </div>
+                        <!-- Card 4: The Risk -->
+                        <div class="flex flex-col items-center">
+                            <div class="dilemma-card w-full scroll-reveal" style="transition-delay: 600ms;">
+                                <div class="bg-blue-100 rounded-t-lg p-4 h-40 flex items-center justify-center">
+                                    <div class="relative w-28 h-24">
+                                        <div class="absolute top-0 left-0 w-20 h-24 bg-white border rounded-md p-2 flex flex-col gap-2">
+                                            <div class="w-full h-1.5 bg-gray-200 rounded-full"></div>
+                                            <div class="w-3/4 h-1.5 bg-gray-200 rounded-full"></div>
+                                            <div class="w-full h-1.5 bg-gray-200 rounded-full"></div>
+                                        </div>
+                                        <div class="absolute top-4 left-6 w-20 h-24 bg-white border-2 border-red-400 rounded-md p-2 flex flex-col gap-2 shadow-lg">
+                                            <div class="w-full h-1.5 bg-gray-200 rounded-full"></div>
+                                            <div class="w-3/4 h-1.5 bg-gray-200 rounded-full"></div>
+                                            <div class="w-full h-1.5 bg-gray-200 rounded-full"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-4 bg-white rounded-b-lg">
+                                    <h3 class="font-bold text-lg text-red-600">THE RISK IS HUGE.</h3>
+                                    <p class="text-medium-text mt-1 text-sm">Your idea could be stolen, leaving you with no recourse.</p>
+                                </div>
+                            </div>
+                             <div class="scroll-reveal mt-6 w-12 h-12 rounded-full bg-white flex items-center justify-center text-primary-blue-dark font-bold text-2xl" style="transition-delay: 700ms;">4</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- [NEW] Our Solution Section -->
+        <section id="solution" class="py-20 lg:py-24 px-6 section-light">
+            <div class="container mx-auto">
+                <div class="text-center max-w-3xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold text-dark-text scroll-reveal">Our Comprehensive Solution</h2>
+                </div>
+                <div class="grid md:grid-cols-2 gap-12 items-center mt-16">
+                    <div class="scroll-reveal">
+                        <h3 class="text-3xl md:text-4xl font-bold text-dark-text">Establish a Verifiable Record of Your Work</h3>
+                        <p class="text-lg text-medium-text mt-4">The Story Bank provides a robust digital framework that links your identity to your work at a specific point in time. This creates the concrete proof of authorship you need to share your work with total peace of mind.</p>
+                        <ul id="solution-points" class="mt-6 space-y-4">
+                            <li class="flex items-start gap-3 zoom-in-item"><svg class="w-6 h-6 text-primary-blue mt-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg><div><h3 class="font-semibold text-dark-text">Permanent Timestamp</h3><p class="text-medium-text">Receive an immutable, verifiable timestamp the moment you register your work.</p></div></li>
+                            <li class="flex items-start gap-3 zoom-in-item"><svg class="w-6 h-6 text-primary-blue mt-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg><div><h3 class="font-semibold text-dark-text">Digital Certificate</h3><p class="text-medium-text">Get an official Certificate of Registration that serves as your proof of ownership.</p></div></li>
+                            <li class="flex items-start gap-3 zoom-in-item"><svg class="w-6 h-6 text-primary-blue mt-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg><div><h3 class="font-semibold text-dark-text">Secure Digital Vault</h3><p class="text-medium-text">Your original files are kept safe and confidential in our encrypted storage.</p></div></li>
+                        </ul>
+                    </div>
+                    <div class="vault-container interactive-mockup scroll-reveal p-8 rounded-xl" style="transition-delay: 150ms; background-color: var(--primary-blue-light);">
+                        <h3 class="font-bold text-lg text-dark-text">My Secure Vault</h3>
+                        <div class="mt-4 space-y-3">
+                            <!-- File item 1 -->
+                            <div class="vault-item bg-white p-3 rounded-lg border border-gray-200 flex items-center justify-between transition-all duration-300">
+                                <div class="flex items-center gap-3">
+                                    <svg class="w-6 h-6 text-primary-blue flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                    <div>
+                                        <p class="font-semibold text-sm text-dark-text">Koneya_Kathe_v2.pdf</p>
+                                        <p class="text-xs text-gray-500">Aug 22, 2025</p>
+                                    </div>
+                                </div>
+                                <span class="text-xs font-medium bg-green-100 text-green-800 px-2 py-0.5 rounded-full">Verified</span>
+                            </div>
+                            <!-- File item 2 -->
+                             <div class="vault-item bg-white p-3 rounded-lg border border-gray-200 flex items-center justify-between transition-all duration-300">
+                                <div class="flex items-center gap-3">
+                                    <svg class="w-6 h-6 text-primary-blue flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                    <div>
+                                        <p class="font-semibold text-sm text-dark-text">Hosa_Chitraka_final.doc</p>
+                                        <p class="text-xs text-gray-500">Aug 15, 2025</p>
+                                    </div>
+                                </div>
+                                <span class="text-xs font-medium bg-green-100 text-green-800 px-2 py-0.5 rounded-full">Verified</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- [NEW] Features Section -->
+        <section id="features" class="py-20 lg:py-24 px-6 section-blue">
+            <div class="container mx-auto">
+                <div class="text-center max-w-3xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold section-title scroll-reveal">Robust Protection for Your Ideas</h2>
+                    <p class="text-lg section-subtitle mt-4 scroll-reveal">We provide a comprehensive suite of features to ensure your creative work is secure, verifiable, and legally sound from the moment you register it.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
+                    <!-- Feature 1 -->
+                    <div class="feature-card scroll-reveal">
+                        <div class="feature-icon">
+                             <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v17.25m0 0c-1.472 0-2.882.265-4.185.75M12 20.25c1.472 0 2.882.265 4.185.75M18.75 4.97A48.416 48.416 0 0012 4.5c-2.291 0-4.545.16-6.75.47m13.5 0c1.01.143 2.01.317 3 .52m-3-.52l2.62 10.726c.122.499-.106 1.028-.589 1.202a5.988 5.988 0 01-2.153.34c-1.325 0-2.61-.212-3.85-.602M5.25 4.97c-1.01.143-2.01.317-3 .52m3-.52l-2.62 10.726c-.122.499.106 1.028.589 1.202a5.989 5.989 0 002.153.34c1.325 0 2.61-.212 3.85-.602" /></svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-dark-text mb-2">Prima Facie Evidence Ready</h3>
+                        <p class="text-medium-text">Your digital certificate serves as powerful, prima facie evidence in legal disputes, establishing your claim of authorship.</p>
+                    </div>
+                    <!-- Feature 2 -->
+                    <div class="feature-card scroll-reveal" style="transition-delay: 100ms;">
+                        <div class="feature-icon">
+                            <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75l3 3m0 0l3-3m-3 3v-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-dark-text mb-2">Secure Encrypted Storage</h3>
+                        <p class="text-medium-text">Your original files are protected with industry-standard encryption, ensuring they remain confidential and accessible only to you.</p>
+                    </div>
+                    <!-- Feature 3 -->
+                    <div class="feature-card scroll-reveal" style="transition-delay: 200ms;">
+                        <div class="feature-icon">
+                            <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4" /></svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-dark-text mb-2">Immutable Archive Storage</h3>
+                        <p class="text-medium-text">Once registered, your proof of authorship is stored in an immutable archive, preventing any alteration or tampering.</p>
+                    </div>
+                    <!-- Feature 4 -->
+                    <div class="feature-card scroll-reveal" style="transition-delay: 300ms;">
+                         <div class="feature-icon">
+                           <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-dark-text mb-2">Blockchain Timestamping</h3>
+                        <p class="text-medium-text">Your work is sealed with a timestamp from trusted calendar servers and recorded on a blockchain for undeniable proof of time.</p>
+                    </div>
+                    <!-- Feature 5 -->
+                    <div class="feature-card scroll-reveal" style="transition-delay: 400ms;">
+                        <div class="feature-icon">
+                            <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" /></svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-dark-text mb-2">Secure Portal for Uploads</h3>
+                        <p class="text-medium-text">Our easy-to-use portal ensures your files are uploaded safely and securely, protecting your work from the very first step.</p>
+                    </div>
+                    <!-- Feature 6 -->
+                    <div class="feature-card scroll-reveal" style="transition-delay: 500ms;">
+                        <div class="feature-icon">
+                            <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-dark-text mb-2">Digitally Verifiable Certificate</h3>
+                        <p class="text-medium-text">Receive a unique digital certificate that can be easily verified by third parties, confirming your proof of existence.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
         
-        <div class="error" id="error"></div>
+        <!-- [REDESIGNED] Process Section -->
+        <section id="process" class="py-20 lg:py-32 px-6 section-light wavy-bg overflow-hidden">
+            <div class="container mx-auto">
+                <div class="text-center max-w-3xl mx-auto mb-16 md:mb-24">
+                    <h2 class="text-3xl md:text-4xl font-bold text-dark-text scroll-reveal">
+                        From File to Certificate in 5 Steps
+                    </h2>
+                    <p class="text-lg text-medium-text mt-4 scroll-reveal">
+                        Our automated process is designed for maximum security and transparency. Watch how we transform your idea into a permanently verifiable asset.
+                    </p>
+                </div>
+
+                <div id="process-animation-container" class="relative">
+                    <!-- Animated Visuals -->
+                    <div class="relative h-24 max-w-6xl mx-auto mb-8">
+                        <div class="absolute top-0 left-0 w-full h-full grid grid-cols-5 gap-4 justify-items-center">
+                            <!-- Icon Placeholders -->
+                            <div id="process-icon-1" class="process-station">
+                                <svg class="w-10 h-10 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path class="upload-arrow" stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3" /><path stroke-linecap="round" stroke-linejoin="round" d="M3 19.5h18" /></svg>
+                            </div>
+                            <div id="process-icon-2" class="process-station">
+                                 <div class="flipper w-12 h-12">
+                                    <svg class="front w-12 h-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                    <svg class="back w-12 h-12 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                 </div>
+                            </div>
+                            <div id="process-icon-3" class="process-station">
+                                 <svg class="w-10 h-10 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9 9 0 110-18 9 9 0 010 18z" /><path class="clock-hand" stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5" /></svg>
+                            </div>
+                            <div id="process-icon-4" class="process-station">
+                                <svg class="w-10 h-10 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path class="lock-shackle" stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75" /><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 11.25h-7.5a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25h7.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25z" /></svg>
+                            </div>
+                            <div id="process-icon-5" class="process-station">
+                                <svg class="w-10 h-10 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            </div>
+                        </div>
+
+                        <!-- Background Track -->
+                        <div class="absolute top-1/2 left-0 w-full h-1 bg-gray-200 -translate-y-1/2 -z-10">
+                            <div id="process-track-progress" class="h-full bg-primary-blue w-0 transition-all duration-1000 ease-out"></div>
+                        </div>
+
+                        <!-- Flying Icon -->
+                        <div id="flying-icon" class="flying-icon">
+                            <svg class="w-10 h-10 text-primary-blue" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Step Descriptions -->
+                    <div class="grid md:grid-cols-5 gap-4 text-center max-w-6xl mx-auto">
+                        <div id="step-1" class="process-step">
+                            <h3 class="text-lg font-semibold mb-2 text-dark-text">1. Secure Upload</h3>
+                            <p class="text-sm text-medium-text">Your confidential document is uploaded through an encrypted connection.</p>
+                        </div>
+                        <div id="step-2" class="process-step">
+                            <h3 class="text-lg font-semibold mb-2 text-dark-text">2. Verification</h3>
+                            <p class="text-sm text-medium-text">Our system verifies the submission for completeness and eligibility.</p>
+                        </div>
+                        <div id="step-3" class="process-step">
+                            <h3 class="text-lg font-semibold mb-2 text-dark-text">3. Timestamp</h3>
+                            <p class="text-sm text-medium-text">A unique digital fingerprint is created and permanently recorded.</p>
+                        </div>
+                         <div id="step-4" class="process-step">
+                            <h3 class="text-lg font-semibold mb-2 text-dark-text">4. Certificate</h3>
+                            <p class="text-sm text-medium-text">A verifiable digital Certificate of Registration is generated.</p>
+                        </div>
+                         <div id="step-5" class="process-step">
+                            <h3 class="text-lg font-semibold mb-2 text-dark-text">5. Delivery</h3>
+                            <p class="text-sm text-medium-text">The certificate is delivered to you and stored in your secure vault.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section id="pricing" class="py-20 md:py-28 px-6 section-blue">
+            <div class="container mx-auto">
+                <div class="text-center max-w-3xl mx-auto scroll-reveal">
+                    <h2 class="text-3xl md:text-4xl font-bold section-title">Simple, Transparent Pricing</h2>
+                    <p class="text-lg section-subtitle mt-4">One plan, one price. All the features you need to protect your intellectual property with confidence. No subscriptions, no hidden fees.</p>
+                </div>
+                
+                <div class="grid lg:grid-cols-5 gap-12 items-start mt-16">
+                    <div class="lg:col-span-3 w-full p-8 rounded-2xl bg-white shadow-2xl border border-gray-200 scroll-reveal text-dark-text">
+                        <h3 class="text-2xl font-bold text-dark-text">Idea Registration</h3>
+                        <p class="text-4xl text-dark-text font-bold mt-4">₹ 1,999 <span class="text-lg font-normal text-medium-text">+ GST</span></p>
+                        <p class="text-medium-text mt-2">A one-time fee for lifetime proof.</p>
+                        <ul class="space-y-4 mt-8 text-medium-text">
+                            <li class="flex items-center gap-3"><svg class="w-5 h-5 flex-shrink-0 text-primary-blue" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Secure, Encrypted File Upload</li>
+                            <li class="flex items-center gap-3"><svg class="w-5 h-5 flex-shrink-0 text-primary-blue" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Permanent, Verifiable Timestamp</li>
+                            <li class="flex items-center gap-3"><svg class="w-5 h-5 flex-shrink-0 text-primary-blue" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Official Digital Certificate</li>
+                            <li class="flex items-center gap-3"><svg class="w-5 h-5 flex-shrink-0 text-primary-blue" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Secure Digital Vault Storage</li>
+                        </ul>
+                        <div class="mt-8">
+                            <button type="button" class="popup-trigger btn btn-primary w-full">Register Your Idea</button>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-2 scroll-reveal" style="transition-delay: 150ms;">
+                        <h3 class="text-2xl font-bold mb-6 text-white">Frequently Asked Questions</h3>
+                        <div id="faq-accordion" class="space-y-4">
+                            <!-- FAQ Item 1 -->
+                            <div>
+                                <button class="faq-toggle flex justify-between items-center w-full text-left font-semibold text-lg p-4 bg-white/5 rounded-lg border border-white/20 hover:bg-white/10 transition">
+                                    <span class="text-white">What kind of files can I register?</span>
+                                    <svg class="w-5 h-5 transition-transform duration-300 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                                </button>
+                                <div class="faq-answer text-medium-text-light">
+                                    <p>You can register a wide variety of digital files, including scripts (.pdf, .docx), manuscripts, song lyrics, musical compositions (.mp3, .wav), and more. As long as it's a digital file that represents your creative work, we can secure it.</p>
+                                </div>
+                            </div>
+                             <!-- FAQ Item 2 -->
+                            <div>
+                                <button class="faq-toggle flex justify-between items-center w-full text-left font-semibold text-lg p-4 bg-white/5 rounded-lg border border-white/20 hover:bg-white/10 transition">
+                                    <span class="text-white">Is this the same as a copyright?</span>
+                                    <svg class="w-5 h-5 transition-transform duration-300 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                                </button>
+                                <div class="faq-answer text-medium-text-light">
+                                    <p>No, this is not a government copyright registration. However, our service provides strong, verifiable evidence of the date you possessed a specific work. This can be a crucial piece of evidence in any potential dispute about authorship.</p>
+                                </div>
+                            </div>
+                            <!-- FAQ Item 3 -->
+                            <div>
+                                <button class="faq-toggle flex justify-between items-center w-full text-left font-semibold text-lg p-4 bg-white/5 rounded-lg border border-white/20 hover:bg-white/10 transition">
+                                    <span class="text-white">How long is my registration valid?</span>
+                                    <svg class="w-5 h-5 transition-transform duration-300 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                                </button>
+                                <div class="faq-answer text-medium-text-light">
+                                    <p>Your registration is valid for a lifetime. The one-time fee ensures that your proof of authorship is permanently stored and accessible whenever you need it.</p>
+                                </div>
+                            </div>
+                             <!-- FAQ Item 4 -->
+                            <div>
+                                <button class="faq-toggle flex justify-between items-center w-full text-left font-semibold text-lg p-4 bg-white/5 rounded-lg border border-white/20 hover:bg-white/10 transition">
+                                    <span class="text-white">Can I update a registered file?</span>
+                                    <svg class="w-5 h-5 transition-transform duration-300 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                                </button>
+                                <div class="faq-answer text-medium-text-light">
+                                    <p>Each registration is a permanent record for a specific version of a file. If you make significant revisions and want to protect the new version, you would register it as a new work. This creates a clear timeline of your creative process.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-200 bg-primary-blue-light">
+        <div class="container mx-auto py-12 px-6 text-medium-text">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="text-center md:text-left">
+                    <p class="font-bold text-dark-text text-xl">STORY<span class="text-primary-blue">BANK</span></p>
+                    <p class="text-sm mt-1">&copy; 2025 Art & Audience. All Rights Reserved.</p>
+                </div>
+                <div class="flex space-x-6 text-sm font-medium">
+                    <a href="/privacy-policy" class="hover:text-dark-text transition">Privacy Policy</a>
+                    <a href="/terms-of-service" class="hover:text-dark-text transition">Terms of Service</a>
+                    <a href="#" class="hover:text-dark-text transition">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Registration Form Modal -->
+    <div id="registration-modal-overlay" class="fixed inset-0 bg-gray-900 bg-opacity-75 z-[100] flex items-center justify-center p-4 transition-opacity duration-300 opacity-0 invisible">
+        <div id="registration-modal" class="bg-white rounded-lg shadow-xl w-full max-w-4xl h-auto max-h-[90vh] transform transition-all duration-300 scale-95 opacity-0 flex flex-col">
+            <button id="close-modal-button" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors z-20"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+            
+            <!-- View 1: Full-width Welcome Screen -->
+            <div id="welcome-view" class="w-full p-8 md:p-12 text-center flex flex-col justify-center items-center section-blue text-white">
+                <h2 class="text-4xl font-bold mb-4">WELCOME</h2>
+                <p class="text-lg text-medium-text-light max-w-sm mx-auto mb-8">You're one step away from creating a permanent, verifiable record of your creative work.</p>
+                <div id="welcome-graphic" class="w-48 h-48 mb-8">
+                    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <g transform="translate(20 20)">
+                            <path d="M20,0 L140,0 Q160,0 160,20 L160,140 Q160,160 140,160 L20,160 Q0,160 0,140 L0,20 Q0,0 20,0 Z" fill="#FFFFFF" stroke="#E0E7FF" stroke-width="4"/>
+                            <rect x="20" y="30" width="120" height="8" rx="4" fill="#E0E7FF"/>
+                            <rect x="20" y="50" width="90" height="8" rx="4" fill="#E0E7FF"/>
+                            <rect x="20" y="70" width="120" height="8" rx="4" fill="#E0E7FF"/>
+                            <path d="M30 110 C 50 90, 80 130, 110 115" stroke="#0A58CC" stroke-width="5" fill="none" stroke-linecap="round"/>
+                            <g class="seal" transform="translate(110 110)">
+                                <circle cx="0" cy="0" r="25" fill="#0D69FF"/>
+                                <path d="M -10 -4 L 0 12 L 10 -4" stroke="#FFFFFF" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                            </g>
+                        </g>
+                    </svg>
+                </div>
+                <button id="start-form-button" class="btn bg-white text-primary-blue hover:bg-gray-100 w-full max-w-xs">Let's Go</button>
+            </div>
+
+            <!-- View 2: Split-screen Form View (Initially Hidden) -->
+            <div id="form-view" class="hidden w-full md:flex flex-1 min-h-0">
+                <!-- Left Side Panel -->
+                <div class="hidden md:flex md:w-1/2 p-8 flex-col justify-center items-center section-blue text-white">
+                    <h2 class="text-3xl font-bold mb-4">Almost There!</h2>
+                    <p class="text-center text-medium-text-light">Complete the form to secure your work.</p>
+                    <div class="w-32 h-32 mt-8">
+                         <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <g transform="translate(20 20)">
+                                <path d="M20,0 L140,0 Q160,0 160,20 L160,140 Q160,160 140,160 L20,160 Q0,160 0,140 L0,20 Q0,0 20,0 Z" fill="#FFFFFF" stroke="#E0E7FF" stroke-width="4"/>
+                                <rect x="20" y="30" width="120" height="8" rx="4" fill="#E0E7FF"/>
+                                <rect x="20" y="50" width="90" height="8" rx="4" fill="#E0E7FF"/>
+                                <rect x="20" y="70" width="120" height="8" rx="4" fill="#E0E7FF"/>
+                                <path d="M30 110 C 50 90, 80 130, 110 115" stroke="#0A58CC" stroke-width="5" fill="none" stroke-linecap="round"/>
+                                <g class="seal" transform="translate(110 110)">
+                                    <circle cx="0" cy="0" r="25" fill="#0D69FF"/>
+                                    <path d="M -10 -4 L 0 12 L 10 -4" stroke="#FFFFFF" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+                <!-- Right Side Form -->
+                <div id="form-container" class="w-full md:w-1/2 p-8 md:p-12 overflow-y-auto flex flex-col justify-center">
+                    <h2 class="text-3xl font-bold text-center text-dark-text mb-2">Registration Details</h2>
+                    <div class="text-center text-sm text-gray-500 mb-6 p-3 bg-gray-50 rounded-md border border-gray-200">
+                        Please fill in your details carefully. This information will be officially linked to your work's digital certificate.
+                    </div>
+                    <form id="registration-form" novalidate class="space-y-5">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="first-name" class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                                <input type="text" id="first-name" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-blue focus:border-transparent" placeholder="Aarav" required pattern="[A-Za-z\s]+">
+                            </div>
+                            <div>
+                                <label for="last-name" class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                                <input type="text" id="last-name" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-blue focus:border-transparent" placeholder="Kumar" required pattern="[A-Za-z\s]+">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                            <input type="email" id="email" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-blue focus:border-transparent" placeholder="you@example.com" required>
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                            <div class="flex items-center border border-gray-300 rounded-md focus-within:ring-2 focus-within:ring-primary-blue focus-within:border-transparent"><span class="text-dark-text pl-3 pr-2">+91</span><input type="tel" id="phone" class="w-full p-3 border-none focus:ring-0" placeholder="9876543210" required maxlength="10" pattern="\d{10}"></div>
+                        </div>
+                        <div>
+                            <label for="address" class="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                            <textarea id="address" rows="3" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-blue focus:border-transparent" placeholder="123, MG Road, Bengaluru" required></textarea>
+                        </div>
+                        <div class="flex items-start bg-gray-50 p-3 rounded-lg border border-gray-200">
+                            <div class="flex items-center h-5"><input id="terms" name="terms" type="checkbox" class="focus:ring-primary-blue h-5 w-5 text-primary-blue border-gray-300 rounded" required></div>
+                            <div class="ml-3 text-sm">
+                                <label for="terms" class="text-gray-700">By checking this box, I confirm that I have read, understood, and agree to the 
+                                    <a href="/terms-of-service" target="_blank" class="text-primary-blue font-semibold hover:underline">Terms of Service</a> and the 
+                                    <a href="/privacy-policy" target="_blank" class="text-primary-blue font-semibold hover:underline">Privacy Policy</a>.
+                                </label>
+                            </div>
+                        </div>
+                        <div class="pt-4">
+                            <button type="submit" id="submit-button" class="btn btn-primary w-full">Pay & Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div id="loading-view" class="hidden w-full p-8 md:p-12 text-center flex-col justify-center items-center"><div class="w-10 h-10 border-4 border-gray-200 border-t-primary-blue rounded-full animate-spin mx-auto"></div><h2 class="text-xl font-semibold text-dark-text mt-6">Processing...</h2></div>
+            <div id="success-view" class="hidden w-full p-8 md:p-12 text-center flex-col justify-center items-center"><h2 class="text-2xl font-bold text-dark-text mb-2">Registration Successful!</h2><p class="text-medium-text">Your details have been recorded. Thank you!</p></div>
+        </div>
     </div>
 
     <script>
-        const fileInput = document.getElementById('fileInput');
-        const uploadArea = document.querySelector('.upload-area');
-        const fileInfo = document.getElementById('fileInfo');
-        const fileName = document.getElementById('fileName');
-        const fileSize = document.getElementById('fileSize');
-        const processing = document.getElementById('processing');
-        const result = document.getElementById('result');
-        const hashValue = document.getElementById('hashValue');
-        const error = document.getElementById('error');
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- IMPORTANT FORM SETUP ---
+            const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxvF97r_Z0uZlU_BKLSYV7ZuLhmx8xYYuHcvB5YnidfzxmwbFelb4FkzD9Fd2lBdkUp/exec';
+            const RAZORPAY_KEY_ID = 'rzp_live_p20RUYAILzO174';
 
-        // Drag and drop functionality
-        uploadArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            uploadArea.classList.add('dragover');
-        });
+            // --- Hero Section Animated Icons ---
+            const iconsContainer = document.getElementById('hero-icons-container');
+            const heroTitle = document.querySelector('#hero-section h1');
 
-        uploadArea.addEventListener('dragleave', () => {
-            uploadArea.classList.remove('dragover');
-        });
+            const createIcons = () => {
+                if (!iconsContainer) return;
+                iconsContainer.innerHTML = '';
+                const numIcons = 8;
+                const isDesktop = window.innerWidth >= 768;
 
-        uploadArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            uploadArea.classList.remove('dragover');
-            const files = e.dataTransfer.files;
-            if (files.length > 0) {
-                handleFile(files[0]);
-            }
-        });
+                for (let i = 0; i < numIcons; i++) {
+                    const iconWrapper = document.createElement('div');
+                    iconWrapper.className = 'hero-icon';
+                    iconWrapper.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-3z"/></svg>`;
+                    
+                    const size = Math.random() * 50 + 40;
+                    iconWrapper.style.width = `${size}px`;
+                    iconWrapper.style.height = `${size}px`;
+                    
+                    let left = Math.random() * 100;
+                    let top = Math.random() * 100;
 
-        fileInput.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) {
-                handleFile(e.target.files[0]);
-            }
-        });
+                    if (isDesktop) {
+                        if (left < 55 && top > 15 && top < 85) {
+                            left = Math.random() * 45 + 55;
+                        }
+                    } else {
+                        if (top < 50) {
+                            top = Math.random() * 50 + 50;
+                        }
+                    }
 
-        function handleFile(file) {
-            // Reset UI
-            hideElements();
-            
-            // Validate file type
-            if (file.type !== 'application/pdf') {
-                showError('Please select a PDF file.');
-                return;
-            }
-            
-            // Validate file size (100MB = 100 * 1024 * 1024 bytes)
-            const maxSize = 100 * 1024 * 1024;
-            if (file.size > maxSize) {
-                showError('File size exceeds 100MB limit.');
-                return;
-            }
-            
-            // Show file info
-            fileName.textContent = file.name;
-            fileSize.textContent = formatFileSize(file.size);
-            fileInfo.style.display = 'block';
-            
-            // Start processing
-            processing.style.display = 'block';
-            
-            // Generate hash
-            generateHash(file);
-        }
+                    iconWrapper.style.left = `${left}%`;
+                    iconWrapper.style.top = `${top}%`;
+                    
+                    const duration = Math.random() * 4 + 8;
+                    const delay = Math.random() * 5;
+                    
+                    iconWrapper.style.animationDuration = `${duration}s`;
+                    iconWrapper.style.animationDelay = `${delay}s`;
+                    
+                    iconsContainer.appendChild(iconWrapper);
+                }
+            };
 
-        async function generateHash(file) {
-            try {
-                const arrayBuffer = await file.arrayBuffer();
-                const hashBuffer = await crypto.subtle.digest('SHA-512', arrayBuffer);
-                const hashArray = Array.from(new Uint8Array(hashBuffer));
-                const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-                
-                // Hide processing and show result
-                processing.style.display = 'none';
-                hashValue.textContent = hashHex;
-                result.style.display = 'block';
-            } catch (err) {
-                processing.style.display = 'none';
-                showError('Error generating hash: ' + err.message);
-            }
-        }
+            // --- Scroll Animation Observer ---
+            const scrollObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        
+                        if (entry.target === heroTitle && iconsContainer.children.length === 0) {
+                           createIcons();
+                           window.addEventListener('resize', createIcons);
+                        }
 
-        function formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-        }
+                        // --- Trigger for sequential zoom animation ---
+                        if (entry.target.id === 'solution') {
+                            const solutionPoints = document.querySelectorAll('#solution-points .zoom-in-item');
+                            solutionPoints.forEach((item, index) => {
+                                setTimeout(() => {
+                                    item.classList.add('is-visible');
+                                }, index * 200);
+                            });
+                        }
 
-        function showError(message) {
-            error.textContent = message;
-            error.style.display = 'block';
-        }
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.2 });
 
-        function hideElements() {
-            fileInfo.style.display = 'none';
-            processing.style.display = 'none';
-            result.style.display = 'none';
-            error.style.display = 'none';
-        }
-
-        function copyToClipboard() {
-            const hash = hashValue.textContent;
-            navigator.clipboard.writeText(hash).then(() => {
-                const btn = document.querySelector('.copy-btn');
-                const originalText = btn.innerHTML;
-                btn.innerHTML = '✅ Copied!';
-                setTimeout(() => {
-                    btn.innerHTML = originalText;
-                }, 2000);
-            }).catch(() => {
-                // Fallback for older browsers
-                const textArea = document.createElement('textarea');
-                textArea.value = hash;
-                document.body.appendChild(textArea);
-                textArea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textArea);
-                
-                const btn = document.querySelector('.copy-btn');
-                const originalText = btn.innerHTML;
-                btn.innerHTML = '✅ Copied!';
-                setTimeout(() => {
-                    btn.innerHTML = originalText;
-                }, 2000);
+            document.querySelectorAll('.scroll-reveal').forEach(el => {
+                scrollObserver.observe(el);
             });
-        }
+            // Observe specific sections for list animations
+            const solutionSection = document.getElementById('solution');
+            if(solutionSection) scrollObserver.observe(solutionSection);
+            
 
-        function resetApp() {
-            fileInput.value = '';
-            hideElements();
-        }
+            // --- FAQ Accordion Logic ---
+            document.querySelectorAll('.faq-toggle').forEach(toggle => {
+                toggle.addEventListener('click', () => {
+                    const answer = toggle.nextElementSibling;
+                    const icon = toggle.querySelector('svg');
+                    const isOpening = !answer.style.maxHeight || answer.style.maxHeight === '0px';
+                    
+                    document.querySelectorAll('.faq-answer').forEach(ans => {
+                        if (ans !== answer) {
+                            ans.style.maxHeight = null;
+                            ans.previousElementSibling.querySelector('svg').style.transform = 'rotate(0deg)';
+                        }
+                    });
+
+                    if (isOpening) {
+                        answer.style.maxHeight = answer.scrollHeight + 'px';
+                        icon.style.transform = 'rotate(180deg)';
+                    } else {
+                        answer.style.maxHeight = null;
+                        icon.style.transform = 'rotate(0deg)';
+                    }
+                });
+            });
+
+            // --- Modal & Form Logic ---
+            const modalOverlay = document.getElementById('registration-modal-overlay');
+            const modal = document.getElementById('registration-modal');
+            const closeModalButton = document.getElementById('close-modal-button');
+            const popupTriggers = document.querySelectorAll('.popup-trigger');
+            
+            const welcomeView = document.getElementById('welcome-view');
+            const startFormButton = document.getElementById('start-form-button');
+            const formView = document.getElementById('form-view');
+            const loadingView = document.getElementById('loading-view');
+            const successView = document.getElementById('success-view');
+            
+            const form = document.getElementById('registration-form');
+            const submitButton = document.getElementById('submit-button');
+
+            const openModal = () => {
+                modalOverlay.classList.remove('invisible', 'opacity-0');
+                modal.classList.remove('opacity-0', 'scale-95');
+                
+                welcomeView.classList.remove('hidden');
+                welcomeView.classList.add('flex');
+                formView.classList.add('hidden');
+                formView.classList.remove('md:flex');
+                loadingView.classList.add('hidden');
+                successView.classList.add('hidden');
+                
+                form.reset();
+                form.querySelectorAll('.border-red-500').forEach(el => el.classList.remove('border-red-500'));
+            };
+
+            const closeModal = () => {
+                modal.classList.add('opacity-0', 'scale-95');
+                modalOverlay.classList.add('opacity-0');
+                setTimeout(() => modalOverlay.classList.add('invisible'), 300);
+            };
+
+            popupTriggers.forEach(trigger => trigger.addEventListener('click', openModal));
+            closeModalButton.addEventListener('click', closeModal);
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) closeModal();
+            });
+
+            startFormButton.addEventListener('click', () => {
+                welcomeView.classList.add('hidden');
+                welcomeView.classList.remove('flex');
+                formView.classList.remove('hidden');
+                formView.classList.add('md:flex');
+            });
+
+            function validateForm() {
+                const inputs = form.querySelectorAll('input[required], textarea[required]');
+                let isValid = true;
+                for (let input of inputs) {
+                    input.classList.remove('border-red-500');
+                    let passes = false;
+                    if (input.type === 'checkbox') passes = input.checked;
+                    else if (input.type === 'email') passes = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim());
+                    else if (input.pattern) passes = new RegExp(input.pattern).test(input.value.trim());
+                    else passes = input.value.trim() !== '';
+
+                    if (!passes) {
+                        isValid = false;
+                        input.classList.add('border-red-500');
+                    }
+                }
+                return isValid;
+            }
+
+            form.addEventListener('submit', async function(event) {
+                event.preventDefault();
+                if (!validateForm()) return;
+
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<div class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mx-auto"></div>';
+
+                const formData = {
+                    name: `${document.getElementById('first-name').value} ${document.getElementById('last-name').value}`,
+                    email: document.getElementById('email').value,
+                    phone: `+91${document.getElementById('phone').value}`,
+                    address: document.getElementById('address').value,
+                    terms: document.getElementById('terms').checked,
+                    signature: 'Not Applicable'
+                };
+                
+                const paymentAmount = 199900; 
+
+                try {
+                    const orderResponse = await fetch(GOOGLE_SCRIPT_URL, {
+                        method: 'POST',
+                        body: JSON.stringify({ action: 'createOrder', amount: paymentAmount })
+                    });
+                    const orderData = await orderResponse.json();
+                    if (orderData.result !== 'success') throw new Error(orderData.message || 'Could not create order.');
+
+                    const options = {
+                        "key": RAZORPAY_KEY_ID, "amount": paymentAmount, "currency": "INR",
+                        "name": "Story Bank Registration", "description": "Idea Registration Fee",
+                        "order_id": orderData.orderId,
+                        "handler": function(response) {
+                            submitToGoogleSheet({ formData, paymentDetails: {
+                                razorpay_payment_id: response.razorpay_payment_id,
+                                razorpay_order_id: response.razorpay_order_id,
+                                razorpay_signature: response.razorpay_signature
+                            }});
+                        },
+                        "prefill": { name: formData.name, email: formData.email, contact: formData.phone },
+                        "theme": { "color": "#0D69FF" }
+                    };
+
+                    const rzp = new Razorpay(options);
+                    rzp.on('payment.failed', function(response) {
+                        console.error("Payment Failed:", response.error.description);
+                        alert("Payment Failed: " + response.error.description);
+                        submitButton.disabled = false;
+                        submitButton.innerHTML = 'Pay & Submit';
+                    });
+                    rzp.open();
+
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again.');
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = 'Pay & Submit';
+                }
+            });
+
+            async function submitToGoogleSheet(data) {
+                formView.classList.add('hidden');
+                formView.classList.remove('md:flex');
+                loadingView.classList.remove('hidden');
+                loadingView.classList.add('flex');
+                try {
+                    const response = await fetch(GOOGLE_SCRIPT_URL, {
+                        method: 'POST',
+                        body: JSON.stringify({ action: 'saveRegistration', ...data })
+                    });
+                    const result = await response.json();
+                    if (result.result !== 'success') throw new Error(result.message || 'Failed to save data.');
+                    loadingView.classList.add('hidden');
+                    loadingView.classList.remove('flex');
+                    successView.classList.remove('hidden');
+                    successView.classList.add('flex');
+                } catch (error) {
+                    console.error('Error submitting to Google Sheets:', error);
+                    loadingView.classList.add('hidden');
+                    loadingView.classList.remove('flex');
+                    successView.classList.remove('hidden');
+                    successView.classList.add('flex');
+                    document.querySelector('#success-view p').innerText = 'Your payment was successful, but there was an error saving your data. Please contact support with your payment ID.';
+                }
+            }
+            
+            // --- [REDESIGNED] Process Animation Logic ---
+            const processSection = document.getElementById('process');
+            if (processSection) {
+                const animationContainer = document.getElementById('process-animation-container');
+                const flyingIcon = document.getElementById('flying-icon');
+                const progressBar = document.getElementById('process-track-progress');
+
+                const stations = [
+                    document.getElementById('process-icon-1'),
+                    document.getElementById('process-icon-2'),
+                    document.getElementById('process-icon-3'),
+                    document.getElementById('process-icon-4'),
+                    document.getElementById('process-icon-5')
+                ];
+                const steps = [
+                    document.getElementById('step-1'),
+                    document.getElementById('step-2'),
+                    document.getElementById('step-3'),
+                    document.getElementById('step-4'),
+                    document.getElementById('step-5')
+                ];
+                // These are the center points of the 5 grid columns
+                const positions = [10, 30, 50, 70, 90]; 
+
+                const processObserver = new IntersectionObserver((entries, observer) => {
+                    if (entries[0].isIntersecting) {
+                        
+                        // --- Reset state for re-triggering ---
+                        stations.forEach(s => s.classList.remove('active', 'completed'));
+                        steps.forEach(s => s.classList.remove('active', 'completed', 'opacity-50'));
+                        animationContainer.classList.remove('processing', 'verified');
+                        
+                        // Use transition 'none' to place the icon instantly at the start without animation
+                        flyingIcon.style.transition = 'none'; 
+                        flyingIcon.style.left = `${positions[0]}%`;
+                        flyingIcon.style.opacity = '0';
+                        progressBar.style.width = '0%';
+                        
+                        // --- Animation Sequence ---
+                        let currentStep = 0;
+                        const totalSteps = 5;
+
+                        const runStep = () => {
+                            if (currentStep >= totalSteps) {
+                                // Last step is now active, mark it as completed and end
+                                setTimeout(() => {
+                                    flyingIcon.style.opacity = '0';
+                                    stations[totalSteps - 1].classList.add('completed');
+                                }, 1000);
+                                return; // End of animation
+                            }
+
+                            // After initial placement, restore the transition for movement
+                            if (currentStep === 0) {
+                                // A small delay to ensure the 'none' transition is applied before this one
+                                setTimeout(() => {
+                                    flyingIcon.style.transition = 'left 1s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.3s ease';
+                                }, 50);
+                            }
+
+                            // Deactivate and mark previous step as completed
+                            if (currentStep > 0) {
+                                stations[currentStep - 1].classList.remove('active');
+                                stations[currentStep - 1].classList.add('completed');
+                                steps[currentStep - 1].classList.remove('active');
+                                steps[currentStep - 1].classList.add('completed');
+                            }
+                            
+                            // Activate current step's station and text
+                            stations[currentStep].classList.add('active');
+                            steps[currentStep].classList.add('active');
+                            steps.forEach((s, i) => {
+                                if (i !== currentStep && !s.classList.contains('completed')) {
+                                    s.classList.add('opacity-50');
+                                } else {
+                                    s.classList.remove('opacity-50');
+                                }
+                            });
+
+                            // Move icon and progress bar to the current step's position
+                            flyingIcon.style.left = `${positions[currentStep]}%`;
+                            flyingIcon.style.opacity = '1';
+                            
+                            // The progress bar should reach the center of the current active station
+                            const progressTarget = currentStep > 0 ? (positions[currentStep] - positions[0]) / (positions[totalSteps - 1] - positions[0]) * 100 : 0;
+                            progressBar.style.width = `${progressTarget}%`;
+
+                            // Special animations for step 2 & 3
+                            animationContainer.classList.toggle('processing', currentStep === 1);
+                            animationContainer.classList.toggle('verified', currentStep === 2);
+                            
+                            currentStep++;
+                            setTimeout(runStep, 1500); // Wait 1.5s for the next step
+                        };
+
+                        setTimeout(runStep, 500); // Initial delay before starting the sequence
+
+                        observer.unobserve(processSection); // Run animation only once
+                    }
+                }, { threshold: 0.6 });
+
+                processObserver.observe(processSection);
+            }
+        });
     </script>
+
 </body>
 </html>
